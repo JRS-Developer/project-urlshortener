@@ -51,7 +51,6 @@ app.post("/api/shorturl", (req, res) => {
 
 app.get("/api/shorturl/:short_url", (req, res) => {
   const url = req.params.short_url;
-
   if (!urls[url]) {
     return res.json({ error: "No such url" });
   }
