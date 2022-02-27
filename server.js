@@ -24,12 +24,17 @@ app.get("/", function (req, res) {
 
 app.post("/api/shorturl", (req, res) => {
   try {
-    const originalUrl = req.body?.url;
+    const { url: originalUrl } = req.body;
+
     if (!originalUrl) {
       res.json({ error: "Please provide a URL" });
     }
 
-    const { hostname } = new URL(originalUrl);
+    const { hostname, protocol } = new URL(originalUrl);
+
+    if (protocol !== "http:" && protocol !== "https:") {
+      throw new Error();
+    }
 
     dns
       .lookup(hostname)
